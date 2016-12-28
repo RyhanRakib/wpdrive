@@ -1,0 +1,46 @@
+<?php
+                $paged = (get_query_var('page')) ? get_query_var('page') : 1;
+                $args1 = array('post_type' => 'portfolio',
+                               'pagination'=> true,
+                                'posts_per_page' => 5,
+                                'order' => 'DESC',
+                                'paged' => $paged);
+
+                $wp_query  = new WP_Query($args1);
+                if ($wp_query ->have_posts()):
+                    $i = 0;
+                    while ($wp_query ->have_posts()): $wp_query ->the_post();
+                        $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+                        $titles = get_the_title($post->ID);
+                        setup_postdata($post);
+
+                        $content_post = get_post($post->ID);
+                        $content = $content_post->post_content;
+                        $build_log_id = get_post_meta($post->ID, 'my_project', true);
+                        $b_log_post = get_post($build_log_id);
+                        $build_log_permalink = $b_log_post->guid;
+                        //var_dump($b_log_post);
+                        ?>
+                <div class="home_con col-md-12">
+                        <div class=" col-md-3 col-sm-3 col-lg-3 col-xs-12" >
+                            <div class="postimg">
+                                <a title="<?php echo $titles; ?>" href="<?php echo $build_log_permalink; ?>"><img class="img-responsive" src="<?php echo $thumbnail[0]; ?>"></a>
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-lg-9 col-xs-12">
+                             <h5 class="portfolio-title"><a title="<?php echo $titles; ?>" href="<?php echo $build_log_permalink; //echo str_replace("portfolio-items/","", get_the_permalink()); ?>"><?php echo $titles; ?></a></h5>
+                             <p align="justify">
+                                 <?php echo substr($content, 0, 800); ?><a href="<?php echo $build_log_permalink;?>"><span style="color:#6dbcdb;" class="readmore">Read More</span></a>
+                             </p>
+                        </div>
+                </div>
+                <hr class="home_hr" />
+                        <?php $i++;
+                    endwhile;?>
+                    <div class="navigation">
+  <div class="alignleft"><?php previous_posts_link('&laquo; Previous') ?></div>
+  <div class="alignright"><?php next_posts_link('More &raquo;') ?></div>
+  </div>
+      <?php wp_reset_query(); ?>
+             <?php   endif; ?>

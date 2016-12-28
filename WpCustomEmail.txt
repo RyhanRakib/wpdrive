@@ -1,0 +1,35 @@
+if(isset($_POST['justicesubmit'])) {
+    $email_to = get_bloginfo('admin_email');
+    $gj_first_name = $_POST['gj_first_name'];
+    $gj_last_name = $_POST['gj_last_name'];
+    $gj_primary_phone = $_POST['gj_primary_phone'];
+    $gj_secondary_phone = $_POST['gj_secondary_phone'];
+    $gj_email = $_POST['gj_email'];
+    $gj_zip = $_POST['gj_zip'];
+    $gj_drug_name = $_POST['gj_drug_name'];
+    $gj_devices_name = $_POST['gj_devices_name'];
+    $gj_questions = $_POST['gj_questions'];
+    $gj_txtarea = $_POST['gj_txtarea'];
+    $headers = 'From: DrugGuardians <noreply@drugGuardians.net>' . "\r\n";
+    $headers .= 'Reply-To: ' . $name . ' <' . $email . '>';
+
+    $content =
+        "First Name: <b>{$gj_first_name}<b><br />" .
+        "Last Name: <b>{$gj_last_name}<b><br />" .
+        "Phone: <b>{$gj_primary_phone}<b><br />" .
+        "Secondary Phone: <b>{$gj_secondary_phone}<b><br />" .
+        "Zip Code: <b>{$gj_zip}<b><br />" .
+        "Email: <b>{$email}<b><br />" .
+        "Drug: <b>{$gj_drug_name}<b><br />" .
+        "Device: <b>{$gj_devices_name}<b><br />" .
+        "Deatails: <b>{$gj_txtarea}<b><br />";
+
+    add_filter('wp_mail_content_type', create_function('', 'return "text/html"; '));
+    $mail_success = wp_mail($email_to, $gj_drug_name, $content, $headers);
+}
+if($mail_success){
+//$url ='http://mosssless.net/projects/wp/drug-guardians/thank-you-justice/';
+//wp_redirect($url);
+}
+
+?>

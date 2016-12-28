@@ -1,0 +1,14 @@
+git init
+
+git remote add origin https://github.com/RyhanRakib/wpdrive.git
+
+git status
+
+git add .
+
+git commit -m "commit message"
+
+
+git pull origin master
+
+git push origin master
